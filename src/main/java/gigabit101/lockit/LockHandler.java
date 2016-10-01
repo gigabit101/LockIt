@@ -1,6 +1,8 @@
 package gigabit101.lockit;
 
 import gigabit101.lockit.items.ItemKey;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -26,6 +28,27 @@ public class LockHandler
 
         if(!world.isRemote && world.getTileEntity(pos) != null)
         {
+            if(world.getBlockState(pos).getBlock() instanceof BlockDoor)
+            {
+                if(world.getBlockState(pos).getValue(BlockDoor.HALF) == BlockDoor.EnumDoorHalf.UPPER)
+                {
+                    BlockPos pos2 = new BlockPos(pos.getX(), pos.getY() -1, pos.getZ());
+                    if(world.getTileEntity(pos2) != null)
+                    {
+                        TileEntity tile = world.getTileEntity(pos2);
+                        if(tile.getTileData().hasKey("lock"))
+                        {
+                            String locker = tile.getTileData().getString("lock");
+                            if(!hasKey(player, event.getHand(), locker) || !player.getDisplayNameString().contains(locker))
+                            {
+                                player.addChatComponentMessage(new TextComponentString("Owned by " + locker));
+                                event.setCanceled(true);
+                            }
+                        }
+                    }
+                }
+            }
+
             TileEntity tile = world.getTileEntity(pos);
             if(tile.getTileData().hasKey("lock"))
             {
