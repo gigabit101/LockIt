@@ -1,6 +1,5 @@
 package gigabit101.lockit;
 
-import gigabit101.lockit.init.ModItems;
 import gigabit101.lockit.items.ItemKey;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -31,7 +30,7 @@ public class LockHandler
             if(tile.getTileData().hasKey("lock"))
             {
                 String locker = tile.getTileData().getString("lock");
-                if(!hasKey(player, event.getHand(), locker))
+                if(!hasKey(player, event.getHand(), locker) || !player.getDisplayNameString().contains(locker))
                 {
                     player.addChatComponentMessage(new TextComponentString("Owned by " + locker));
                     event.setCanceled(true);
