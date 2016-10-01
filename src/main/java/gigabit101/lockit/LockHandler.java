@@ -39,6 +39,28 @@ public class LockHandler
         }
     }
 
+    @SubscribeEvent
+    public void onBlockBreak(PlayerInteractEvent.LeftClickBlock event)
+    {
+        World world = event.getWorld();
+        BlockPos pos = event.getPos();
+        EntityPlayer player = event.getEntityPlayer();
+
+        if(!world.isRemote && world.getTileEntity(pos) != null)
+        {
+            TileEntity tile = world.getTileEntity(pos);
+            if(tile.getTileData().hasKey("lock"))
+            {
+                String locker = tile.getTileData().getString("lock");
+                if(!hasKey(player, event.getHand(), locker) || !player.getDisplayNameString().contains(locker))
+                {
+                    player.addChatComponentMessage(new TextComponentString("Owned by " + locker));
+                    event.setCanceled(true);
+                }
+            }
+        }
+    }
+
     public boolean hasKey(EntityPlayer player, EnumHand hand, String locker)
     {
         if(player.getHeldItem(hand) != null && player.getHeldItem(hand).getItem() instanceof ItemKey)
