@@ -42,6 +42,5 @@ public class ItemKey extends ItemLockIt
         {
             tooltip.add("Right Click to bind to player");
         }
-        super.addInformation(stack, playerIn, tooltip, advanced);
     }
 }

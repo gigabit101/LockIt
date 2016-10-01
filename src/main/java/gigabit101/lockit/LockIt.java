@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 /**
  * Created by Gigabit101 on 01/10/2016.
  */
-@Mod(modid = LockIt.MOD_ID, name = LockIt.MOD_NAME, version = LockIt.MOD_VERSION)
+@Mod(modid = LockIt.MOD_ID, name = LockIt.MOD_NAME, version = LockIt.MOD_VERSION, dependencies = "required-after:reborncore")
 public class LockIt
 {
     public static final String MOD_ID = "lockit";
